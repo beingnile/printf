@@ -32,9 +32,13 @@ int _printf(const char *format, ...)
 				count += write(STDOUT_FILENO, (char *) &cval, 1);
 				break;
 			case 's':
-				for (sval = va_arg(arg, char *); *sval; sval++)
+				sval = va_arg(arg, char *);
+				if (sval == NULL)
+					sval = "(null)";
+				while (*sval)
 				{
 					count += write(STDOUT_FILENO, sval, 1);
+					sval++;
 				}
 				break;
 			default:
