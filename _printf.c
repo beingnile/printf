@@ -48,7 +48,6 @@ int _printf(const char *format, ...)
 				break;
 			default:
 				exit(1);
-				break;
 		}
 	}
 	va_end(arg);
