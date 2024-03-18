@@ -13,6 +13,7 @@ int _printf(const char *format, ...)
 	int count, cval;
 	const char *p;
 	char *sval;
+	char perc;
 
 	count = 0;
 	va_start(arg, format);
@@ -27,6 +28,10 @@ int _printf(const char *format, ...)
 		}
 		switch (*++p)
 		{
+			case '%':
+				perc = '%';
+				count += write(STDOUT_FILENO, &perc, 1);
+				break;
 			case 'c':
 				cval = va_arg(arg, int);
 				count += write(STDOUT_FILENO, (char *) &cval, 1);
@@ -42,7 +47,7 @@ int _printf(const char *format, ...)
 				}
 				break;
 			default:
-				count += write(STDOUT_FILENO, p, 1);
+				exit(1);
 				break;
 		}
 	}
