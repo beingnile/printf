@@ -30,6 +30,7 @@ int _printf(const char *format, ...)
 		{
 			case 0:
 				exit(0);
+				break;
 			case '%':
 				perc = '%';
 				count += write(STDOUT_FILENO, &perc, 1);
