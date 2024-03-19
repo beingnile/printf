@@ -28,6 +28,8 @@ int _printf(const char *format, ...)
 		}
 		switch (*++p)
 		{
+			case 0:
+				exit(0);
 			case '%':
 				perc = '%';
 				count += write(STDOUT_FILENO, &perc, 1);
@@ -47,7 +49,8 @@ int _printf(const char *format, ...)
 				}
 				break;
 			default:
-				exit(1);
+				count += write(STDOUT_FILENO, p, 1);
+				break;
 		}
 	}
 	va_end(arg);
