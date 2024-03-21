@@ -13,7 +13,6 @@ int _printf(const char *format, ...)
 	int count, cval, dval;
 	const char *p;
 	char *sval;
-	char perc;
 
 	count = 0;
 	va_start(arg, format);
@@ -23,18 +22,23 @@ int _printf(const char *format, ...)
 	{
 		if (*p != '%')
 		{
-			count += write(STDOUT_FILENO, p, 1);
+			if (write(STDOUT_FILENO, p, 1) < 0)
+				return (-1);
+			count++;
 			continue;
 		}
 		switch (*++p)
 		{
 			case '%':
-				perc = '%';
-				count += write(STDOUT_FILENO, &perc, 1);
+				if (write(STDOUT_FILENO, "%", 1) < 0)
+					return (-1);
+				count++;
 				break;
 			case 'c':
-				cval = va_arg(arg, int);
-				count += write(STDOUT_FILENO, (char *) &cval, 1);
+				cval = (char) va_arg(arg, int);
+				if (write(STDOUT_FILENO, &cval, 1) < 0)
+					return (-1);
+				count++;
 				break;
 			case 'd':
 				dval = va_arg(arg, int);
@@ -46,7 +50,9 @@ int _printf(const char *format, ...)
 					sval = "(null)";
 				while (*sval)
 				{
-					count += write(STDOUT_FILENO, sval, 1);
+					if (write(STDOUT_FILENO, sval, 1) < 0)
+						return (-1);
+					count++;
 					sval++;
 				}
 				break;
