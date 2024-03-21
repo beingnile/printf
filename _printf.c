@@ -57,7 +57,9 @@ int _printf(const char *format, ...)
 				}
 				break;
 			default:
-				count += write(STDOUT_FILENO, p, 1);
+				if (write(STDOUT_FILENO, p, 1) < 0)
+					return (-1);
+				count++;
 				break;
 		}
 	}
