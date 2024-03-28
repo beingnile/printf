@@ -3,7 +3,7 @@
 /**
  * _printf - Produces output according to a format.
  *
- * @format: The character syring to be produced.
+ * @format: The character string to be produced.
  *
  * Return: Number of characters printed.
  */
