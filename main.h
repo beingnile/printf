@@ -6,4 +6,7 @@
 
 int _printf(const char *format, ...);
 
+/* Helper functions */
+int _itoa(int src, char *str);
+
 #endif
