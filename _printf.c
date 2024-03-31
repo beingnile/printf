@@ -97,8 +97,7 @@ int _itoa(int src, char *str)
 		len++;
 		src = -src;
 	}
-	do
-	{
+	do {
 		*end++ = (src % 10) + '0';
 		len++;
 		src /= 10;
