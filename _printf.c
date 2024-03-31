@@ -27,26 +27,25 @@ int _printf(const char *format, ...)
 				return (-1);
 			count++;
 			continue;
-		}
+		} else if (!*++p)
+			return(0);
+		--p;
 		switch (*++p)
 		{
 			case '%':
-				if (write(STDOUT_FILENO, "%", 1) < 0)
-					return (-1);
+				write(STDOUT_FILENO, "%", 1);
 				count++;
 				break;
 			case 'c':
 				cval = (char) va_arg(arg, int);
-				if (write(STDOUT_FILENO, &cval, 1) < 0)
-					return (-1);
+				write(STDOUT_FILENO, &cval, 1);
 				count++;
 				break;
 			case 'd':
 			case 'i':
 				dval = va_arg(arg, int);
 				strlen = _itoa(dval, buffer);
-				if (write(STDOUT_FILENO, buffer, strlen) < 0)
-					return (-1);
+				write(STDOUT_FILENO, buffer, strlen);
 				count += strlen;
 				break;
 			case 's':
@@ -55,15 +54,13 @@ int _printf(const char *format, ...)
 					sval = "(null)";
 				while (*sval)
 				{
-					if (write(STDOUT_FILENO, sval, 1) < 0)
-						return (-1);
+					write(STDOUT_FILENO, sval, 1);
 					count++;
 					sval++;
 				}
 				break;
 			default:
-				if (write(STDOUT_FILENO, --p, 1) < 0)
-					return (-1);
+				write(STDOUT_FILENO, --p, 1);
 				count++;
 				break;
 		}
