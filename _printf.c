@@ -28,7 +28,7 @@ int _printf(const char *format, ...)
 			count++;
 			continue;
 		} else if (!*++p)
-			return(0);
+			return (0);
 		--p;
 		switch (*++p)
 		{
