@@ -87,6 +87,7 @@ int _itoa(int src, char *str)
 {
 	char *start, *end;
 	int len = 0;
+
 	start = str;
 	end = str;
 
