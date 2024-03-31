@@ -12,10 +12,10 @@ int _printf(const char *format, ...)
 	va_list arg;
 	int count, cval, dval, strlen;
 	const char *p;
-	char *sval, *buffer;
+	char *sval;
+	char buffer[256];
 
 	count = 0;
-	buffer = malloc(sizeof(char) * 514);
 	va_start(arg, format);
 	if (format == NULL)
 		return (-1);
@@ -48,7 +48,6 @@ int _printf(const char *format, ...)
 				if (write(STDOUT_FILENO, buffer, strlen) < 0)
 					return (-1);
 				count += strlen;
-				free(buffer);
 				break;
 			case 's':
 				sval = va_arg(arg, char *);
@@ -63,7 +62,7 @@ int _printf(const char *format, ...)
 				}
 				break;
 			default:
-				if (write(STDOUT_FILENO, p, 1) < 0)
+				if (write(STDOUT_FILENO, --p, 1) < 0)
 					return (-1);
 				count++;
 				break;
