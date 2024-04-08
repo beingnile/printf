@@ -10,10 +10,8 @@
 int _printf(const char *format, ...)
 {
 	va_list arg;
-	int count, cval, dval, strlen;
+	int count;
 	const char *p;
-	char *sval;
-	char buffer[256];
 
 	count = 0;
 	va_start(arg, format);
@@ -23,8 +21,7 @@ int _printf(const char *format, ...)
 	{
 		if (*p != '%')
 		{
-			if (write(STDOUT_FILENO, p, 1) < 0)
-				return (-1);
+			write(STDOUT_FILENO, p, 1);
 			count++;
 			continue;
 		} else if (!*++p)
@@ -37,27 +34,14 @@ int _printf(const char *format, ...)
 				count++;
 				break;
 			case 'c':
-				cval = (char) va_arg(arg, int);
-				write(STDOUT_FILENO, &cval, 1);
-				count++;
+				count += print_char(arg);
 				break;
 			case 'd':
 			case 'i':
-				dval = va_arg(arg, int);
-				strlen = _itoa(dval, buffer);
-				write(STDOUT_FILENO, buffer, strlen);
-				count += strlen;
+				count += print_int(arg);
 				break;
 			case 's':
-				sval = va_arg(arg, char *);
-				if (sval == NULL)
-					sval = "(null)";
-				while (*sval)
-				{
-					write(STDOUT_FILENO, sval, 1);
-					count++;
-					sval++;
-				}
+				count += print_str(arg);
 				break;
 			default:
 				write(STDOUT_FILENO, --p, 1);
@@ -68,50 +52,4 @@ int _printf(const char *format, ...)
 	va_end(arg);
 
 	return (count);
-}
-
-/**
- * _itoa - Converts an integer into a string.
- * write() acts weirdly with values of type int,
- * This function solves that.
- *
- * @src: Int to convert.
- * @str: Buffer to store string.
- *
- * Return: Length of @str.
- */
-int _itoa(int src, char *str)
-{
-	char *start, *end;
-	int len = 0;
-
-	start = str;
-	end = str;
-
-	if (src < 0)
-	{
-		*str++ = '-';
-		end++;
-		len++;
-		src = -src;
-	}
-	do {
-		*end++ = (src % 10) + '0';
-		len++;
-		src /= 10;
-	} while (src != 0);
-	*end = '\0';
-	end--;
-
-	while (start < end)
-	{
-		*start ^= *end;
-		*end ^= *start;
-		*start ^= *end;
-
-		start++;
-		end--;
-	}
-
-	return (len);
 }
