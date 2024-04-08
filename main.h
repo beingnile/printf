@@ -6,6 +6,11 @@
 
 int _printf(const char *format, ...);
 
+/* Functions that help with printing */
+int print_char(va_list arg);
+int print_int(va_list arg);
+int print_str(va_list arg);
+
 /* Helper functions */
 int _itoa(int src, char *str);
 
