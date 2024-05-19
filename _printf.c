@@ -43,6 +43,10 @@ int _printf(const char *format, ...)
 			case 's':
 				count += print_str(arg);
 				break;
+			default:
+				write(STDOUT_FILENO, --p, 1);
+				count++;
+				break;
 		}
 	}
 	va_end(arg);
