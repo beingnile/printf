@@ -24,9 +24,7 @@ int _printf(const char *format, ...)
 			write(STDOUT_FILENO, p, 1);
 			count++;
 			continue;
-		} else if (!*++p)
-			return (0);
-		--p;
+		}
 		switch (*++p)
 		{
 			case '%':
