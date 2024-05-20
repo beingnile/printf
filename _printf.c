@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
  * _printf - Produces output according to a format.
@@ -17,6 +18,8 @@ int _printf(const char *format, ...)
 	va_start(arg, format);
 	if (format == NULL)
 		return (-1);
+	else if (*(format + 0) == '%' && *(format + 1) == '\0')
+		return (0);
 	for (p = format; *p; p++)
 	{
 		if (*p != '%')
