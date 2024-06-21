@@ -12,23 +12,20 @@ int _printf(const char *format, ...)
 {
 	va_list arg;
 	int count;
-	const char *p;
 
 	count = 0;
 	va_start(arg, format);
-	if (format == NULL)
+	if (format == NULL || (*(format + 0) == '%' && *(format + 1) == '\0'))
 		return (-1);
-	else if (*(format + 0) == '%' && *(format + 1) == '\0')
-		return (0);
-	for (p = format; *p; p++)
+	for (; *format; format++)
 	{
-		if (*p != '%')
+		if (*format != '%')
 		{
-			write(STDOUT_FILENO, p, 1);
+			write(STDOUT_FILENO, format, 1);
 			count++;
 			continue;
 		}
-		switch (*++p)
+		switch (*++format)
 		{
 			case '%':
 				write(STDOUT_FILENO, "%", 1);
@@ -45,7 +42,7 @@ int _printf(const char *format, ...)
 				count += print_str(arg);
 				break;
 			default:
-				write(STDOUT_FILENO, --p, 1);
+				write(STDOUT_FILENO, --format, 1);
 				count++;
 				break;
 		}
