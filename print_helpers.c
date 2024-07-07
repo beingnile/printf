@@ -101,3 +101,44 @@ int print_int(va_list arg)
 
 	return (strlen);
 }
+
+/**
+ * print_unsigned_base - Prints n unsigned integer under
+ * specified base
+ *
+ * @arg: Integers to print
+ * @base: Base to print in
+ * @uppercase: To handle X specifically
+ *
+ * Return: Number of characters printed
+ */
+int print_unsigned_base(va_list arg, int base, int uppercase)
+{
+	unsigned int num = va_arg(arg, int);
+	int count = 0;
+	int rem = 0;
+	int index = 0;
+	int i;
+	char buffer[32];
+	char *hex_digits = (uppercase) ? "0123456789ABCDEF" : "0123456789abcdef";
+
+	if (num == 0)
+		count += write(STDOUT_FILENO, "0", 1);
+	else
+	{
+		while (num != 0)
+		{
+			rem = num % base;
+			if (base == 16)
+				buffer[index++] = *(hex_digits + rem);
+			else
+				buffer[index++] = (rem < 10) ? rem + '0' : rem - 10 + 'a';
+			num /= base;
+		}
+
+		for (i = index - 1; i >= 0; i--)
+			count += write(STDOUT_FILENO, &buffer[i], 1);
+	}
+
+	return (count);
+}
