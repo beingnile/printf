@@ -93,12 +93,15 @@ int print_str(va_list arg)
 int print_int(va_list arg)
 {
 	int dval, strlen;
-	char buffer[13];
+	char *buffer;
 
+	if ((buffer = malloc(sizeof(char) * 1024)) == NULL)
+		return (-1);
 	dval = va_arg(arg, int);
 	strlen = _itoa(dval, buffer);
 	write(STDOUT_FILENO, buffer, strlen);
 
+	free(buffer);
 	return (strlen);
 }
 
@@ -119,9 +122,11 @@ int print_unsigned_base(va_list arg, int base, int uppercase)
 	int rem = 0;
 	int index = 0;
 	int i;
-	char buffer[32];
+	char *buffer;
 	char *hex_digits = (uppercase) ? "0123456789ABCDEF" : "0123456789abcdef";
 
+	if ((buffer = malloc(sizeof(char) * 1024)) == NULL)
+		return (-1);
 	if (num == 0)
 		count += write(STDOUT_FILENO, "0", 1);
 	else
@@ -130,15 +135,16 @@ int print_unsigned_base(va_list arg, int base, int uppercase)
 		{
 			rem = num % base;
 			if (base == 16)
-				buffer[index++] = *(hex_digits + rem);
+				*(buffer + index++) = *(hex_digits + rem);
 			else
-				buffer[index++] = (rem < 10) ? rem + '0' : rem - 10 + 'a';
+				*(buffer + index++) = (rem < 10) ? rem + '0' : rem - 10 + 'a';
 			num /= base;
 		}
 
 		for (i = index - 1; i >= 0; i--)
-			count += write(STDOUT_FILENO, &buffer[i], 1);
+			count += write(STDOUT_FILENO, (buffer + i), 1);
 	}
 
+	free(buffer);
 	return (count);
 }
