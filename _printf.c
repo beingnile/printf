@@ -21,8 +21,7 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			write(STDOUT_FILENO, format, 1);
-			count++;
+			count += write(STDOUT_FILENO, format, 1);
 			continue;
 		}
 		count += handle_specifier(&format, arg);
@@ -47,8 +46,10 @@ int handle_specifier(const char **format, va_list arg)
 	switch (*++(*format))
 	{
 		case '%':
-			write(STDOUT_FILENO, "%", 1);
-			count++;
+			count += write(STDOUT_FILENO, "%", 1);
+			break;
+		case 'b':
+			count += print_bin(arg);
 			break;
 		case 'c':
 			count += print_char(arg);
@@ -61,8 +62,7 @@ int handle_specifier(const char **format, va_list arg)
 			count += print_str(arg);
 			break;
 		default:
-			write(STDOUT_FILENO, --(*format), 1);
-			count++;
+			count += write(STDOUT_FILENO, --(*format), 1);
 			break;
 	}
 
