@@ -1,6 +1,44 @@
 #include "main.h"
 
 /**
+ * print_bin - Prints out a binary representation
+ * according to a format specifier
+ *
+ * @arg: Character to print in binary form
+ *
+ * Return: The number of characters printed
+ */
+int print_bin(va_list arg)
+{
+	int bits, started; /* Number of bits in an unsigned int */
+	int count = 0;
+	int i = 0;
+	unsigned int num = va_arg(arg, int);
+
+	if (num == 0)
+		count += write(STDOUT_FILENO, "0", 1);
+	else
+	{
+		started = 0; /* Keeping tack of significant bits */
+		bits = sizeof(unsigned int) * 8;
+
+		for (i = bits - 1; i >= 0; i--)
+		{
+			if ((num >> i) & 1)
+			{
+				started = 1;
+				count += write(STDOUT_FILENO, "1", 1);
+			} else if (started)
+			{
+				count += write(STDOUT_FILENO, "0", 1);
+			}
+		}
+	}
+
+	return (count);
+}
+
+/**
  * print_char - Prints out characters according to
  * a format specifier
  *
@@ -14,8 +52,7 @@ int print_char(va_list arg)
 	int cval;
 
 	cval = (char) va_arg(arg, int);
-	write(STDOUT_FILENO, &cval, 1);
-	count++;
+	count += write(STDOUT_FILENO, &cval, 1);
 
 	return (count);
 }
@@ -38,8 +75,7 @@ int print_str(va_list arg)
 		sval = "(null)";
 	while (*sval)
 	{
-		write(STDOUT_FILENO, sval, 1);
-		count++;
+		count += write(STDOUT_FILENO, sval, 1);
 		sval++;
 	}
 
