@@ -14,6 +14,7 @@ int _itoa(int src, char *str)
 {
 	char *start, *end;
 	int len = 0;
+	long temp = src; /* To handle the overflowing INT_MIN */
 
 	start = str;
 	end = str;
@@ -24,14 +25,14 @@ int _itoa(int src, char *str)
 		end++;
 		start++;
 		len++;
-		src = -src;
+		temp = -temp;
 	}
 
 	do {
-		*end++ = (src % 10) + '0';
+		*end++ = (temp % 10) + '0';
 		len++;
-		src /= 10;
-	} while (src != 0);
+		temp /= 10;
+	} while (temp != 0);
 	*end = '\0';
 	end--;
 
