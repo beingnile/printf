@@ -25,29 +25,46 @@ int _printf(const char *format, ...)
 			count++;
 			continue;
 		}
-		switch (*++format)
-		{
-			case '%':
-				write(STDOUT_FILENO, "%", 1);
-				count++;
-				break;
-			case 'c':
-				count += print_char(arg);
-				break;
-			case 'd':
-			case 'i':
-				count += print_int(arg);
-				break;
-			case 's':
-				count += print_str(arg);
-				break;
-			default:
-				write(STDOUT_FILENO, --format, 1);
-				count++;
-				break;
-		}
+		count += handle_specifier(&format, arg);
 	}
 	va_end(arg);
+
+	return (count);
+}
+
+/**
+ * handle_specifier - Handles the conversion specifiers
+ *
+ * @format: Pointer to pointer to format string
+ * @arg: Variadic arguments used by printers
+ *
+ * Return: The number of characters written
+ */
+int handle_specifier(const char **format, va_list arg)
+{
+	int count = 0;
+
+	switch (*++(*format))
+	{
+		case '%':
+			write(STDOUT_FILENO, "%", 1);
+			count++;
+			break;
+		case 'c':
+			count += print_char(arg);
+			break;
+		case 'd':
+		case 'i':
+			count += print_int(arg);
+			break;
+		case 's':
+			count += print_str(arg);
+			break;
+		default:
+			write(STDOUT_FILENO, --(*format), 1);
+			count++;
+			break;
+	}
 
 	return (count);
 }
