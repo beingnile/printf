@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 int _printf(const char *format, ...);
+int handle_specifier(const char **format, va_list arg);
 
 /* Functions that help with printing */
 int print_char(va_list arg);
