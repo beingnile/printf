@@ -57,7 +57,7 @@ int print_str(va_list arg)
 int print_int(va_list arg)
 {
 	int dval, strlen;
-	char buffer[11];
+	char buffer[13];
 
 	dval = va_arg(arg, int);
 	strlen = _itoa(dval, buffer);
