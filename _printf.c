@@ -61,6 +61,18 @@ int handle_specifier(const char **format, va_list arg)
 		case 's':
 			count += print_str(arg);
 			break;
+		case 'o':
+			count += print_unsigned_base(arg, 8, 0);
+			break;
+		case 'u':
+			count += print_unsigned_base(arg, 10, 0);
+			break;
+		case 'x':
+			count += print_unsigned_base(arg, 16, 0);
+			break;
+		case 'X':
+			count += print_unsigned_base(arg, 16, 1);
+			break;
 		default:
 			count += write(STDOUT_FILENO, --(*format), 1);
 			break;
