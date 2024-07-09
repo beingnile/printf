@@ -13,8 +13,9 @@ int print_char(va_list arg);
 int print_int(va_list arg);
 int print_str(va_list arg);
 int print_unsigned_base(va_list arg, int base, int uppercase);
+int print_pointer(va_list arg);
 
-/* Helper functions */
+/* Utility functions */
 int _itoa(int src, char *str);
 
 #endif
