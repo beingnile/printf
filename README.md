@@ -70,10 +70,17 @@ int main(void)
     int len;
     int len2;
     unsigned int ui;
+	void *addr;
 
     len = _printf("Let's try to printf a simple sentence.\n");
     len2 = printf("Let's try to printf a simple sentence.\n");
     ui = (unsigned int)INT_MAX + 1024;
+	addr = NULL;
+    _printf("Empty addr:[%p]\n", addr);
+    printf("Empty addr:[%p]\n", addr);
+    addr = &ui;
+    _printf("Address:[%p]\n", addr);
+    printf("Address:[%p]\n", addr);
     _printf("Length:[%d, %i]\n", len, len);
     printf("Length:[%d, %i]\n", len2, len2);
     _printf("Negative:[%d]\n", -762534);
@@ -123,6 +130,10 @@ You should see an output similar to this:
 
 Let's try to printf a simple sentence.
 Let's try to printf a simple sentence.
+Empty addr:[(nil)]
+Empty addr:[(nil)]
+Address:[0x7ffdd08f7974]
+Address:[0x7ffdd08f7974]
 Length:[39, 39]
 Length:[39, 39]
 Negative:[-762534]
