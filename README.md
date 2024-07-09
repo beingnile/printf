@@ -158,7 +158,7 @@ Unknown:[%r]
 ```
 
 ## Features
-`_printf` handles the following conversion specifiers: `c`, `s`, `%`, `d`, `i`, `u`, `o`, `x`, `X`
+`_printf` handles the following conversion specifiers: `c`, `s`, `%`, `d`, `i`, `u`, `o`,  `p`, `x`, `X`
 and a custom one `b` that converts `unsigned int` into it's binary representation.  
 The function supports the basic functionalities of `printf`
 
