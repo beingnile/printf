@@ -95,7 +95,8 @@ int print_int(va_list arg)
 	int dval, strlen;
 	char *buffer;
 
-	if ((buffer = malloc(sizeof(char) * 1024)) == NULL)
+	buffer = malloc(sizeof(char) * 1024);
+	if (buffer == NULL)
 		return (-1);
 	dval = va_arg(arg, int);
 	strlen = _itoa(dval, buffer);
@@ -125,7 +126,8 @@ int print_unsigned_base(va_list arg, int base, int uppercase)
 	char *buffer;
 	char *hex_digits = (uppercase) ? "0123456789ABCDEF" : "0123456789abcdef";
 
-	if ((buffer = malloc(sizeof(char) * 1024)) == NULL)
+	buffer = malloc(sizeof(char) * 1024);
+	if (buffer == NULL)
 		return (-1);
 	if (num == 0)
 		count += write(STDOUT_FILENO, "0", 1);

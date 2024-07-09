@@ -48,3 +48,48 @@ int _itoa(int src, char *str)
 
 	return (len);
 }
+
+/**
+ * print_pointer - Handles the p conversioon specifier
+ *
+ * @arg: Variadic list with format pointer
+ *
+ * Return: The number of characters written
+ */
+int print_pointer(va_list arg)
+{
+	int count = 0;
+	void *pointer = va_arg(arg, void*);
+	char *buffer;
+	unsigned long p = (unsigned long)pointer;
+	char *hex_digits = "0123456789abcdef";
+	int index = 0;
+	int rem = 0;
+	int i = 0;
+
+	buffer = malloc(sizeof(char) * 1024);
+	if (buffer == NULL)
+		return (-1);
+
+	if (pointer == NULL)
+	{
+		count += write(STDOUT_FILENO, "(nil)", 5);
+		return (count);
+	}
+
+	while (p != 0)
+	{
+		rem = p % 16;
+		*(buffer + index++) = *(hex_digits + rem);
+		p /= 16;
+	}
+
+	count += write(STDOUT_FILENO, "0x", 2);
+
+	for (i = index - 1; i >= 0; i--)
+		count += write(STDOUT_FILENO, (buffer + i), 1);
+
+	free(buffer);
+
+	return (count);
+}
